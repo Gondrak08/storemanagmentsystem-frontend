@@ -1,0 +1,46 @@
+{
+    "type": "object",
+    "properties": {
+        "first_name": {
+            "type": "string",
+            "title": "Nome"
+        },
+        "last_name": {
+            "type": "string",
+            "title": "Sobrenome"
+        },
+        "birthday": {
+            "type": "string",
+            "format": "date",
+            "title": "Data de nascimento"
+        },
+        "identifier": {
+            "type": "integer",
+            "title": "integer"
+        },
+        "someOption": {
+            "type": "string",
+            "title": "tipo sanguíneo",
+            "enum": [
+                "A",
+                "B",
+                "C",
+                null
+            ]
+        },
+        "availabe": {
+            "type": "boolean",
+            "title": "available"
+        },
+        "list": {
+            "type": "array",
+            "title": "list",
+            "items": {
+                "type": "string"
+            },
+            "maxItems": 3,
+            "uniqueItems": true
+        }
+       
+    }
+}
