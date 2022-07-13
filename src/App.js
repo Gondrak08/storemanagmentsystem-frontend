@@ -15,8 +15,8 @@ function App() {
   const [user, setUser ] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const auth = useContext(AuthContext) 
+  let role = JSON.stringify(auth.role);
 
- 
   useEffect(()=>{
     const u = localStorage.getItem("user");
     u && JSON.parse(u) ? setUser(true) : setUser(false);
@@ -29,10 +29,8 @@ function App() {
   // console.log(auth.userRole);
 
   return (
-    <AuthProvider>
-      <ContentProvider>
+  
         <div>
-          <Router>
             <Routes>
               {!user && (
                 <Route path="/" element={<Open authenticate={ () => setUser(true) } />} />
@@ -44,19 +42,23 @@ function App() {
                     <Route path="product"  element={<Products/>}/>
                     <Route path="order"  element={<Orders/>}/>
                     <Route path="bill"  element={<Bills/>}/>
-                    <Route path="user"  element={<Users/>}/>
+                    {/* <Route path="user"  element={<Users/>}/> */}
                     <Route path=":id"  element={<Dashboard/>}/>
                   </Route>
               )}
 
+              {role=="admin" ? (
+                <Route path="private" element={<Private authenticate={()=> setUser(false)}/>} >
+      
+                <Route path="user"  element={<Users/>}/>
+                
+              </Route>
+              ):null}
 
-              
               <Route path="*" element={<Navigate to={user ? "private" : "/"} />} />
-            </Routes>
-          </Router>
+            </Routes>      
         </div>
-      </ContentProvider>
-    </AuthProvider>
+    
   );
 }
 

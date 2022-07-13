@@ -16,7 +16,6 @@ const Orders = () => {
     const [bill, setBill]=useState([]);
     const [isDownload, setisDownload]=useState(false);
 
-
     useEffect(()=>{
         api.get("/category/get", {
             headers: {

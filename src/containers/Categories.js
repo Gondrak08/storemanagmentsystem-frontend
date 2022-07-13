@@ -44,6 +44,7 @@ const Categories = () => {
         getCategory();
     }
 
+
     const editProduct = (e) => {
         if (context.getId) {
             api.patch("/category/update", {

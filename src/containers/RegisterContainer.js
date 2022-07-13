@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { AuthContext } from '../context/auth';
 import api from '../services/api';
 import { FaArrowLeft } from 'react-icons/fa';
-
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({authenticate}) => {
     const [userName, setUserName] = useState('');
@@ -10,7 +10,7 @@ const Login = ({authenticate}) => {
     const [password, setPassword] = useState('');
     const [btnType, setBtnType] = useState('');
     const auth = useContext(AuthContext) 
-
+    const navigate = useNavigate()
 
     function handleLogin(e){
         e.preventDefault();
@@ -23,14 +23,18 @@ const Login = ({authenticate}) => {
             if(res.status == 200){
                 auth.setAuthToken(res.data.token);
                 auth.setRole(res.data.role);
+                auth.setUserEmail(res.data.email);
+                auth.setUserPass(res.data.password);
                 authenticate();
-                console.log(res);
             }
         }).catch(err=>console.log(err));        
     }
     const handleRegister = (e) => {
         e.preventDefault();
-        api.post("/user/signup",{name:userName, email:useremail, password:password}).then((res)=>{console.log(res)}).catch(err=>console.log(err));
+        api.post("/user/signup",{name:userName, email:useremail, password:password}).then((res)=>{
+            console.log(res);
+            setBtnType('');
+        }).catch(err=>console.log(err));
     }
     
    
@@ -60,12 +64,12 @@ const Login = ({authenticate}) => {
                             </div>
                             ) : (
                                 <div className='mt-5 gap-3 flex flex-col' >
-                                <input type="text" onChange={(e)=> {setUserName(e.target.value)}} placeholder="Name" className={inputStyles} style={btnType != 'Singup' ? {display:'none'} : null} />
+                                <input type="text" onChange={(e)=> {setUserName(e.target.value)}} placeholder="Name" className={inputStyles} style={btnType != 'Register' ? {display:'none'} : null} />
                                 <input type="text" onChange={(e)=> {setuserEmail(e.target.value)}} placeholder="Email" className={inputStyles}  />
                                 <input type="text" onChange={(e)=> setPassword(e.target.value) } placeholder="Password" className={inputStyles}  />
                                 
                                 <div className="flex justify-between items-center" >
-                                    <button onClick={btnType=='Singup' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLogin(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
+                                    <button onClick={btnType=='Register' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLogin(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
                                     {btnType=='Login' ? (<a href='#' onClick={(e)=> setBtnType('forget password ?') } > forget password ? </a>)  : null}
                                 </div>
                                 <FaArrowLeft onClick={(e)=> setBtnType('')} className="absolute  left-6 bottom-8 cursor-pointer"  color="" fontSize="1.5em" />

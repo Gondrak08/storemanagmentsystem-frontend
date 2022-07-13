@@ -3,10 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router,Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider} from './context/auth';
+import { ContentProvider } from './context/content';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+    <ContentProvider>
+      <Router>
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </Router>
+    </ContentProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

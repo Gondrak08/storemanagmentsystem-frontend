@@ -6,14 +6,18 @@ export const AuthContext = createContext({});
 
 
 export const AuthProvider = ({ children }) => {
-    const[user, setUser] = useState(false)
     const[authToken, setAuthToken] = useState(null)
-    const[role, setRole] = useState(null)
+    const[user, setUser] = useState(false);
+    const[userEmail, setUserEmail] = useState(null);
+    const[userPass, setUserPass] = useState(null);
+    const[role, setRole] = useState(null);
 
     return (
         <AuthContext.Provider value={{
-            user, setUser,
             authToken, setAuthToken,
+            user, setUser,
+            userEmail, setUserEmail,
+            userPass, setUserPass,
             role, setRole,
         }} >
             {children}

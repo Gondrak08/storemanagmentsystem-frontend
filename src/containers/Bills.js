@@ -257,8 +257,10 @@ const Bills = () => {
                                             className="aling-center text-red-500 cursor-pointer" />
                                         <MdSimCardDownload onClick={(e) => { downloadBill(e, bill.uuid) }} fontSize={25}
                                             className="aling-center text-red-500 cursor-pointer" />
-                                        <MdDeleteForever onClick={(e) => { modalHandle(bill.id) || context.setModalType('Delete') }} fontSize={25}
-                                            className="aling-center text-red-500 cursor-pointer" />
+                                        
+                                        
+                                        <MdDeleteForever onClick={(e) => {if(auth.role=="admin") {modalHandle(bill.id) || context.setModalType('Delete')} else {}}} fontSize={25}
+                                            className={`aling-center ${auth.role=="admin"? "text-red-500 cursor-pointer" : "text-gray-500" }`} />
                                     </td>
                                 </tr>
                             )
