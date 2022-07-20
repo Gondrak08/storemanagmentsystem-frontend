@@ -59,7 +59,6 @@ const Products =()=>{
         getProduct();
     }
     
-
     const editProduct=(e)=>{
         if (context.getId) {
             api.patch("/product/update", {
@@ -149,7 +148,7 @@ const Products =()=>{
                         </tr>
                     </thead>
 
-                    <tbody  >
+                    <tbody>
                     {context.products ? Object.values(context.products).filter(item=>{
                             if(context.search == ''){
                                 return item;

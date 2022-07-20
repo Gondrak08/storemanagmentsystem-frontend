@@ -28,15 +28,22 @@ const Login = ({authenticate}) => {
                 authenticate();
             }
         }).catch(err=>console.log(err));        
-    }
+    };
+    
     const handleRegister = (e) => {
         e.preventDefault();
         api.post("/user/signup",{name:userName, email:useremail, password:password}).then((res)=>{
             console.log(res);
             setBtnType('');
         }).catch(err=>console.log(err));
-    }
+    };
     
+    const handleLostPassword =(e)=>{
+        api.post("/user/forgotPassword",{email:useremail}).then(res=>{
+            console.log(res);
+        }).catch(err=>console.log(err));
+        e.preventDefault();
+    }
    
     let inputStyles = [
         "w-full h-[2em] border-b-[1px] border-blue-500 p-2"
@@ -59,17 +66,24 @@ const Login = ({authenticate}) => {
                                 <div className="flex flex-col mt-24 gap-3" >         
                                 {
                                     ['Login', 'Register', 'forget password ?'].map((item, index)=>(
-                                    <a key={index} onClick={(e)=> setBtnType(item)} className='self-center bg-gray-200 text-center cursor-pointer text-msdark border-transparent hover:border-msblue1 border-[1px] w-full max-w-[15em] p-2'>{item}</a>))
+                                    <a key={index} 
+                                    onClick={(e)=> setBtnType(item)} 
+                                    className={`self-center text-center cursor-pointer  border-transparent hover:border-msblue1 border-[1px] w-full max-w-[15em] p-2 
+                                        ${item == 'Login' ? 'bg-msblue1 hover:bg-msblue2 text-white ': '' } 
+                                        ${item == 'Register' ? 'bg-gray-200': ''} 
+                                        ${item=='forget password ?'  ? 'underline':'' }
+                                    `}
+                                    >{item}</a>))
                                 }
                             </div>
                             ) : (
                                 <div className='mt-5 gap-3 flex flex-col' >
                                 <input type="text" onChange={(e)=> {setUserName(e.target.value)}} placeholder="Name" className={inputStyles} style={btnType != 'Register' ? {display:'none'} : null} />
                                 <input type="text" onChange={(e)=> {setuserEmail(e.target.value)}} placeholder="Email" className={inputStyles}  />
-                                <input type="text" onChange={(e)=> setPassword(e.target.value) } placeholder="Password" className={inputStyles}  />
+                                <input type="password" onChange={(e)=> setPassword(e.target.value) } placeholder="Password" className={inputStyles} style={btnType =='forget password ?' ? {display:'none'}:null}  />
                                 
                                 <div className="flex justify-between items-center" >
-                                    <button onClick={btnType=='Register' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLogin(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
+                                    <button onClick={btnType=='Register' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLostPassword(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
                                     {btnType=='Login' ? (<a href='#' onClick={(e)=> setBtnType('forget password ?') } > forget password ? </a>)  : null}
                                 </div>
                                 <FaArrowLeft onClick={(e)=> setBtnType('')} className="absolute  left-6 bottom-8 cursor-pointer"  color="" fontSize="1.5em" />

@@ -11,19 +11,17 @@ const Private = ()=>{
     useEffect(()=>{
         navigate("dashboard")
     },[])
+    
     return(
         <div className="w-sceen h-screen">
            <Navbar menuopen={()=>{setIsMenuOpen(!isMenuOpen)}} />
-           
            <section className="flex w-full h-full" >
             <Sidebar isMenuOpen={isMenuOpen}/>
-           
             <div className="display w-full h-full flex justify-center bg-mslightgray " >
                 <div className="container " >
                     <Outlet/>
                 </div>
             </div>
-
            </section>
         </div>
     )

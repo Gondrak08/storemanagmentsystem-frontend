@@ -27,9 +27,9 @@ const Users = () =>{
         getUsers()
     },[]);
 
-    const updateUserStatus=(value, obj)=>{
+    const updateUserStatus=(value, id)=>{
         const data={
-            id:obj.id,
+            id:id,
             status: value
         }
         api.patch("/user/update",data,{
@@ -44,6 +44,22 @@ const Users = () =>{
         }).catch(err=>console.log(err));
     };
 
+    const updateRole=(value, id)=>{
+        const data={
+            id:id,
+            role:value
+        }
+        api.patch("/user/changeRole",data,{
+            headers: {
+                Authorization: 'Bearer ' + auth.authToken
+            }
+        }).then((res)=>{
+            if(res.status==200){
+               console.log(res);
+               getUsers();
+            }
+        }).catch(err=>console.log(err));
+    }
 
     return(
         <section className="responsive py-3 flex flex-col items-center gap-[25px]">
@@ -63,6 +79,7 @@ const Users = () =>{
                                 <th className="py-3 text-msgray ">Name</th>
                                 <th className="py-3 text-msgray ">Email</th>
                                 <th className="py-3 text-msgray text-center">status</th>
+                                <th className="py-3 text-msgray text-center">roles</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,14 +98,23 @@ const Users = () =>{
                                                 <td className="px-3 py-3 flex justify-center text-msdark  text-center">
                                                 {value == "false" ? (
                                                     <MdToggleOff fontSize={25} className="text-center text-gray-500 cursor-pointer"
-                                                        onClick={()=>{updateUserStatus("true", index)}}
+                                                        onClick={()=>{updateUserStatus("true", index.id)}}
                                                     />) 
                                                 : null }
                                                 {value=="true"? (
-                                                    <MdToggleOn  fontSize={25} className="text-center text-red-500 cursor-pointer" onClick={(e)=> {updateUserStatus("false", index)}}/>
+                                                    <MdToggleOn  fontSize={25} className="text-center text-red-500 cursor-pointer" onClick={(e)=> {updateUserStatus("false", index.id)}}/>
                                                 ):null}
                                                 </td>
                                             ):null}
+                                            {key=="role"&&(
+                                                <td className='px-3 py-3 text-msdark  text-center'>
+                                                   <select defaultValue={value} onChange={(e)=> updateRole(e.target.value, index.id)} >
+                                                       { ['user', 'manager'].map(opt=>(
+                                                        <option value={opt} >{opt}</option>
+                                                       ))}
+                                                   </select>
+                                                </td>
+                                            )}
                                             </>
                                         ))
                                     }

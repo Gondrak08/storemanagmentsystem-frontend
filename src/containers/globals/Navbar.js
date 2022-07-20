@@ -111,12 +111,13 @@ export const PasswordBox =({isClosed})=>{
 
 const Navbar=({menuopen})=>{
     const[isOptions, setIsOptions] = useState(false);
-    const[isPasswordBox, setIsPasswordBox] = useState(false); 
+    const[isPasswordBox, setIsPasswordBox] = useState(false);
+    const auth = useContext(AuthContext); 
     return(
         <>
         <div className="w-full bg-msblue2 flex justify-center items-center py-5 px-6">
             <div className="relative w-full flex justify-between">
-                <div className="flex items-center justify-between w-full max-w-[1500px] gap-8">
+                <div className="flex items-center justify-between w-full">
                     <div className='flex items-center w-auto gap-8' >
                         <HiMenuAlt4 
                         fontSize={30} 
@@ -125,21 +126,21 @@ const Navbar=({menuopen})=>{
                         />
                         <h1 className="text-white text-xl" >Store Managment System</h1>
                     </div>
-                    <div className='relative'>
+                    <div className='relative mr-3'>
                         <FaUserCircle 
                         fontSize={30}
-                        className={`cursor-pointer text-white hover:text-msblue1 ${isOptions?"text-msblue1":""}`}
+                        className={`cursor-pointer text-white hover:text-msblue1 ${isOptions?"text-msblue1 bg-white rounded-full ":""}`}
                         onClick={()=> setIsOptions(!isOptions) }
                         />
-                        <div className={`options-box drop-shadow-md w-[10em] px-3 py-5  ${isOptions ? 
-                            'absolute left-[-60px] top-[35px] visbile bg-white  h-[fit-content]' 
+                        <div className={`options-box w-0 transition drop-shadow-md w-[10em] px-3 py-5  ${isOptions ? 
+                            'absolute -translate-y-1 scale-110 left-[-155px] top-[40px] visbile bg-white  w-[fit-content]' 
                             : 'hidden'} `}>
-                            <div className='flex flex-col justify-center items-center gap-3'>
+                            <div className='flex flex-col flex-wrap justify-center items-center gap-3'>
                                 <button
-                                className='' 
+                                className='p-2 bg-msblue1  text-white text-[14px] hover:bg-msblue2' 
                                 onClick={()=>setIsPasswordBox(!isPasswordBox)} 
                                 >Change Password</button>
-                                <button>Logout</button>
+                                <button  onClick={()=> auth.setUser(false)} className=" hover:bg-mslightgray  border-[1px] border-msdark w-full p-1 text-center text-[14px]" >Logout</button>
                             </div>
                         </div>
                     </div>
