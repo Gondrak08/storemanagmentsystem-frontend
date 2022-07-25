@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/auth';
-import { ContentContext } from '../context/content';
 import api from '../services/api';
 
 import { Input } from './index';
-import { MdEdit, MdDeleteForever, MdToggleOff, MdToggleOn} from 'react-icons/md';
+import { MdToggleOff, MdToggleOn} from 'react-icons/md';
 
 const Users = () =>{
     const auth = useContext(AuthContext);
-    const context = useContext(ContentContext);
     const [usersList, setUsersList] = useState(null);
     
     const getUsers=()=>{

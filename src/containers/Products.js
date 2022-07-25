@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import { AuthContext } from '../context/auth';
 import { ContentContext } from '../context/content';
 import { MdEdit, MdDeleteForever, MdToggleOff, MdToggleOn} from 'react-icons/md';
