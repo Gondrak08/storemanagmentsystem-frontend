@@ -37,10 +37,10 @@ const Products =()=>{
             }
         }).catch(err => console.log(err));
     }
-
+   
     const addProduct =(e)=>{
         api.post("/product/add", {
-            categoryId:context.category,
+            categoryId:context.category??context.categories[0].id,
             name: context.name,
             description:context.description,
             price:context.price,
@@ -53,9 +53,11 @@ const Products =()=>{
         }).then((res) => {
             if (res.status == 200) {
                 console.log(res)
+                getProduct();
             }
         }).catch(err => console.log(err));
         e.preventDefault();
+
         getProduct();
     }
     
@@ -158,6 +160,7 @@ const Products =()=>{
                          }
 
                         ).map(item => (
+                            
                         <tr id={item.id} className=" w-full  border-0 border-b-[1px] border-msgray " >
                             <td className="py-3 text-msdark text-center text-center">
                                 {item.name}
@@ -197,7 +200,7 @@ const Products =()=>{
                                 }
 
                                 </>
-
+                               
                                 
                             </td>
                         </tr>

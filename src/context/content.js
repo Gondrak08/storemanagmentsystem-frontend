@@ -15,7 +15,7 @@ export const ContentProvider = ({ children }) => {
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-    const [category, setCategory] = useState([]);
+    const [category, setCategory] = useState(null);
     const [product, setProduct] = useState(null)
     const [description, setDescription] = useState('');
     const [quantity, setQuantity] = useState(null);
