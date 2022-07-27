@@ -2,9 +2,11 @@ import React, {useState, useEffect, useContext} from 'react';
 import { AuthContext } from '../context/auth';
 import api from '../services/api';
 import { FaArrowLeft } from 'react-icons/fa';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({authenticate}) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [userName, setUserName] = useState('');
     const [useremail, setuserEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,6 +15,7 @@ const Login = ({authenticate}) => {
     const navigate = useNavigate()
 
     function handleLogin(e){
+        setIsLoading(true);
         e.preventDefault();
         api.post("/user/login",{
             email: useremail,
@@ -25,6 +28,7 @@ const Login = ({authenticate}) => {
                 auth.setRole(res.data.role);
                 auth.setUserEmail(res.data.email);
                 auth.setUserPass(res.data.password);
+                setIsLoading(false);
                 authenticate();
             }
         }).catch(err=>console.log(err));        
@@ -77,17 +81,26 @@ const Login = ({authenticate}) => {
                                 }
                             </div>
                             ) : (
-                                <div className='mt-5 gap-3 flex flex-col' >
-                                <input type="text" onChange={(e)=> {setUserName(e.target.value)}} placeholder="Name" className={inputStyles} style={btnType != 'Register' ? {display:'none'} : null} />
-                                <input type="text" onChange={(e)=> {setuserEmail(e.target.value)}} placeholder="Email" className={inputStyles}  />
-                                <input type="password" onChange={(e)=> setPassword(e.target.value) } placeholder="Password" className={inputStyles} style={btnType =='forget password ?' ? {display:'none'}:null}  />
-                                
-                                <div className="flex justify-between items-center" >
-                                    <button onClick={btnType=='Register' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLostPassword(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
-                                    {btnType=='Login' ? (<a href='#' onClick={(e)=> setBtnType('forget password ?') } > forget password ? </a>)  : null}
-                                </div>
-                                <FaArrowLeft onClick={(e)=> setBtnType('')} className="absolute  left-6 bottom-8 cursor-pointer"  color="" fontSize="1.5em" />
-                                </div>
+                                <>
+                                {
+                                    isLoading ? 
+                                    (<div className='loading-spinner' />) 
+                                    :
+                                    (
+                                        <div className='mt-5 gap-3 flex flex-col' >
+                                        <input type="text" onChange={(e)=> {setUserName(e.target.value)}} placeholder="Name" className={inputStyles} style={btnType != 'Register' ? {display:'none'} : null} />
+                                        <input type="text" onChange={(e)=> {setuserEmail(e.target.value)}} placeholder="Email" className={inputStyles}  />
+                                        <input type="password" onChange={(e)=> setPassword(e.target.value) } placeholder="Password" className={inputStyles} style={btnType =='forget password ?' ? {display:'none'}:null}  />
+                                        
+                                        <div className="flex justify-between items-center" >
+                                            <button onClick={btnType=='Register' ?  e => handleRegister(e) : btnType == 'Login' ? e => handleLogin(e) :  e => handleLostPassword(e)} className="bg-white hover:bg-msblue2 border-[1px] text-msblue1 hover:text-white border-msblue2 hover:border-transparent  px-3 py-1 max-w-[30%]" >{btnType == 'Singup' ? 'Register': btnType == 'forget password ?' ? 'Send' : btnType}</button>
+                                            {btnType=='Login' ? (<a href='#' onClick={(e)=> setBtnType('forget password ?') } > forget password ? </a>)  : null}
+                                        </div>
+                                        <FaArrowLeft onClick={(e)=> setBtnType('')} className="absolute  left-6 bottom-8 cursor-pointer"  color="" fontSize="1.5em" />
+                                        </div>
+                                    )
+                                }
+                                </>
                             )
                             
                         }
