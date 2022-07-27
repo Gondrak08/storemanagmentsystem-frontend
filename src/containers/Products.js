@@ -139,7 +139,7 @@ const Products =()=>{
 
                 <table className="container  table-fixed shadow-xl rounded-md bg-mswhite">
                     
-                    <thead>
+                    <thead className=' border-0 border-b-[1px] border-msgray '>
                         <tr  >
                         <th className="py-3 text-msgray text-center ">Name</th>
                         <th className="py-3 text-msgray text-center ">Category</th>

@@ -83,8 +83,6 @@ const Categories = () => {
     }
 
    
-
-
     return (
         <>
             <section className="responsive py-3 flex flex-col items-center gap-[25px]">
@@ -100,7 +98,7 @@ const Categories = () => {
                 </div>
 
                 <table className="container table-fixed shadow-xl rounded-md py-3 bg-mswhite">
-                    <thead className="" >
+                    <thead className=" border-0 border-b-[1px] border-msgray " >
                         <tr>
                         <th className="py-3 text-msgray ">Name</th>
                         <th className="py-3 text-msgray ">Eidt</th>
@@ -116,7 +114,7 @@ const Categories = () => {
                             }
                         }
                     ).map(item => (
-                        <tr id={item.id} className="  border-0 border-t-[1px] border-msgray " >
+                        <tr id={item.id} className=" border-0 border-b-[1px] border-msgray " >
                             <td className="px-3 text-msdark  text-center">{item.name}</td>
                             <td align="center" className="py-3" >
                                 <MdEdit onClick={() => context.setIsOpen(!context.isOpen) || context.setModalType('Edit') || context.setGetId(item.id)} fontSize={25} className="text-msblue1  cursor-pointer text-center " />

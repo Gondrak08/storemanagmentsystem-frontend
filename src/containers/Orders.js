@@ -207,7 +207,7 @@ const Orders = () => {
                                 <select className="options-box" defaultValue={item} onChange={(e) => getProductByCategory(e, e.target.value) } >
                                     {
                                         context.categories ? Object.values(context.categories).map(option=>(
-                                            <option id={option.id} value={option.id} name={option.name} >
+                                            <option id={option.id}  value={option.id} name={option.name} >
                                                 {option.name}
                                             </option>
                                         )):null

@@ -28,10 +28,12 @@ const Login = ({authenticate}) => {
                 auth.setRole(res.data.role);
                 auth.setUserEmail(res.data.email);
                 auth.setUserPass(res.data.password);
-                setIsLoading(false);
                 authenticate();
             }
-        }).catch(err=>console.log(err));        
+        }).catch(err=>console.log(err)).finally(()=>{
+            setIsLoading(false);
+        })
+        ;        
     };
     
     const handleRegister = (e) => {

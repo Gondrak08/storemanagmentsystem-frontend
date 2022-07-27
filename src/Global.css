@@ -32,3 +32,8 @@
     border-radius: 50%;
     animation: spinner 1.5s linear infinite;
   }
+
+  tr:last-child{
+    border-bottom: none;
+    /* border-color: blue !important; */
+  }
