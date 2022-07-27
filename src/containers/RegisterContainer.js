@@ -84,7 +84,7 @@ const Login = ({authenticate}) => {
                                 <>
                                 {
                                     isLoading ? 
-                                    (<div className='loading-spinner' />) 
+                                    (<div className='loading-spinner self-center bg-msblue2' />) 
                                     :
                                     (
                                         <div className='mt-5 gap-3 flex flex-col' >
