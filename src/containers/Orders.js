@@ -5,7 +5,7 @@ import api from '../services/api';
 import { MdDeleteForever,} from 'react-icons/md';
 import { Input } from './index'
 import { saveAs } from 'file-saver';
-import fileDownload from 'js-file-download';
+
 
 const Orders = () => {
     const auth = useContext(AuthContext);
@@ -15,6 +15,7 @@ const Orders = () => {
     const [total,setTotal]=useState('');
     const [bill, setBill]=useState([]);
     const [isDownload, setisDownload]=useState(false);
+    const [isProduct, setIsProduct]=useState(false);
 
     useEffect(()=>{
         api.get("/category/get", {
@@ -37,7 +38,10 @@ const Orders = () => {
 
     const getProductByCategory=(e, id)=>{
         const getCategory = context.categories ? Object.values(context.categories).filter(item=>{if(id==item.id)return item.name}) : null;
-        context.setProduct(null)
+        // context.setProduct(null)
+        context.setQuantity(null);
+        setTotalPrice(null);
+       
         api.get(`/product/getByCategory/${id}`, {
             headers: {
                 Authorization: 'Bearer ' + auth.authToken
@@ -46,13 +50,30 @@ const Orders = () => {
             if (res.status == 200) {
                 context.setProducts(res.data);
                 context.setCategory(getCategory);
-                getProduct();
+                setIsProduct(true)
             }
         }).catch(err => console.log(err));
     };
 
+    useEffect(()=>{
+       if(isProduct && context.products){
+         const dataId =  context.products[0].id; 
+          api.get(`/product/getById/${dataId}`,{
+           headers: {
+               Authorization: 'Bearer ' + auth.authToken
+           }
+           }).then((res) => {
+               if (res.status == 200) {
+                   context.setProduct(res.data)
+               }
+           }).catch(err => console.log(err)).finally(setIsProduct(false));
+       }
+    },
+    [isProduct])
+
     const getProduct=(e,id)=>{
-       api.get(`/product/getById/${id}`,{
+       const dataId = id; 
+       api.get(`/product/getById/${dataId}`,{
         headers: {
             Authorization: 'Bearer ' + auth.authToken
         }
@@ -61,7 +82,7 @@ const Orders = () => {
                 context.setProduct(res.data)
             }
         }).catch(err => console.log(err));
-        console.log(id)
+        console.log(dataId);
     };
 
     const getQuantity=(value)=>{
@@ -182,7 +203,7 @@ const Orders = () => {
                 <div className="grid grid-cols-4 gap-3" >
                     {["name", "email", "contact number", "payment method"].map(item => {
                         if (item == "payment method") return (
-                            <select className="options-box" defaultValue={item} onChange={(e) => context.setPayment(e.target.value)} >
+                            <select className="options-box"  onChange={(e) => context.setPayment(e.target.value)} >
                                 {['cash', 'credit card', 'debit card', 'pix'].map(val => (
                                     <option key={val} value={val} >
                                         {val}
@@ -204,7 +225,10 @@ const Orders = () => {
                     {["category", "product", "price", "quantity", "total"].map(item => (
                         <>
                             { item == 'category'? (
-                                <select className="options-box" defaultValue={item} onChange={(e) => getProductByCategory(e, e.target.value) } >
+                                <select className="options-box" defaultValue={"category"}  onChange={(e) => getProductByCategory(e, e.target.value) } >
+                                    <option value="category" disabled>
+                                        categories
+                                    </option>
                                     {
                                         context.categories ? Object.values(context.categories).map(option=>(
                                             <option id={option.id}  value={option.id} name={option.name} >
@@ -215,20 +239,15 @@ const Orders = () => {
                                 </select>
                                 
                             ): item == 'product' ? (
-                                <select className="options-box" defaultValue={item} onChange={(e) => getProduct(e,e.target.value) }>
-                                     {
-                                        context.products ? Object.values(context.products).map(option=>(
+                                <select className="options-box" defaultValue={context.products ? context.products[0].id :'product'} onChange={(e) => getProduct(e,e.target.value) }>
+                                    <option value="product" disabled >chose product</option>
+                                    { context.products  ? Object.values(context.products).map(option=>(
                                             <>
-                                            
                                             <option key={option.id} defaultValue="no product"  value={option.id} >
                                                 {option.name}
                                             </option>
                                             </>
-                                        )):(
-                                            <option>
-                                               No product
-                                            </option>
-                                        )
+                                        )): (<option >no product </option>)
                                      }
                                 </select>
                             ): item=='price' ? (
