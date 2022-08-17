@@ -37,3 +37,25 @@
     border-bottom: none;
     /* border-color: blue !important; */
   }
+
+  /* Progress Bar */
+
+  /* .circularProgress{
+    position:relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:50px;
+    width:50px;
+    border-radius:50%;
+    background:conic-gradient(#7d2ae8 3.6deg, #ededed 0deg);
+  } */
+  .circularProgress::before{
+    content:"";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+  }
+

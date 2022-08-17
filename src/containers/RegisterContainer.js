@@ -26,6 +26,7 @@ const Login = ({authenticate}) => {
             if(res.status == 200){
                 auth.setAuthToken(res.data.token);
                 auth.setRole(res.data.role);
+                auth.setUserName(res.data.name);
                 auth.setUserEmail(res.data.email);
                 auth.setUserPass(res.data.password);
                 authenticate();

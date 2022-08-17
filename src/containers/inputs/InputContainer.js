@@ -23,7 +23,7 @@ const Input =({styleProp, placeHolder, content, inputType,label,labelStyle, func
             value={
                 inputType == 'Search' ? context.search : 
                 inputType=='price'? content :
-                inputType=='total'? content : 
+                inputType=='total'? content :
                 null}     
             placeholder={placeHolder??null}
             onChange={(e) => 
